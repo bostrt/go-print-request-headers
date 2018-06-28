@@ -17,28 +17,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
     }
     sort.Strings(requestKeys)
 
-    var responseKeys []string
-    for k := range w.Header() {
-        responseKeys = append(responseKeys, k)
-    }
-    sort.Strings(responseKeys)
-
+    fmt.Println("==========================================")
     fmt.Fprintln(w, "<b>request.RequestURI:</b>", r.RequestURI, "</br>")
+    fmt.Println("<b>request.RequestURI:</b>", r.RequestURI, "</br>")
     fmt.Fprintln(w, "<b>request.RemoteAddr:</b>", r.RemoteAddr, "</br>")
+    fmt.Println("<b>request.RemoteAddr:</b>", r.RemoteAddr, "</br>")
     fmt.Fprintln(w, "<b>request.TLS:</b>", r.TLS, "</br>")
+    fmt.Println("<b>request.TLS:</b>", r.TLS, "</br>")
 
 
     fmt.Fprintln(w, "<b>Request Headers:</b></br>")
+    fmt.Println("<b>Request Headers:</b></br>")
     for _, k := range requestKeys {
         fmt.Fprintln(w, k, ":", r.Header[k], "</br>")
+        fmt.Println(k, ":", r.Header[k], "</br>")
     }
-
-    /*
-    fmt.Fprintln(w, "<b>Response Headers:</b></br>")
-    for _, k := range responseKeys {
-        fmt.Fprintln(w, k, ":", k, "</br>")
-    }
-    */
 }
 
 func main() {
