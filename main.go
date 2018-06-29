@@ -35,6 +35,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+    finish := make(chan bool)
     http.HandleFunc("/", handler)
-    http.ListenAndServe(":8080", nil)
+    go func() {
+      http.ListenAndServe(":8080", nil)
+    }()
+    go func() {
+      http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
+    }()
+    <-finish
 }
