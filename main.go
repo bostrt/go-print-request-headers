@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "net/http"
+    "net/http/httputil"
     "sort"
 )
 
@@ -26,12 +27,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
     fmt.Println("<b>request.TLS:</b>", r.TLS, "</br>")
 
 
-    fmt.Fprintln(w, "<b>Request Headers:</b></br>")
-    fmt.Println("<b>Request Headers:</b></br>")
-    for _, k := range requestKeys {
-        fmt.Fprintln(w, k, ":", r.Header[k], "</br>")
-        fmt.Println(k, ":", r.Header[k], "</br>")
+    fmt.Println("==========================================")
+    dump, err := httputil.DumpRequest(r, true)
+    if err != nil {
+        http.Error(w, fmt.Sprint(err), http.StatusInternalServerError)
+        return
     }
+
+    fmt.Fprintf(w, "%q", dump)
+    fmt.Printf("%q", dump)
 }
 
 func main() {
